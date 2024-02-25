@@ -1,11 +1,12 @@
 //setting parameters
 require('dotenv').config()
-const express = require('express')
-const app = express()
 
 const jwt = require('jsonwebtoken')
-
+const express = require('express')
+const app = express()
 app.use(express.json())
+
+
 
 //kID for each auth token inspired by Street Fighter Characters
 const kID = [
@@ -28,27 +29,11 @@ const kID = [
 ]
 
 //Shows correct data if you have the right auth code
-app.get('/kID', Auth, (req, res) => {
+app.get('/test', check, (req, res) => {
     res.json(kID.filter(kID => kID.user === req.ID.KID))
 })
 
-app.post('/auth', async (req, res) =>{
-
-    //confirms kID's
-
-    const user = req.body.user
-
-    if (user == null) return res.sendStatus(401)
-
-    const ID = { KID : user}
-
-    //calling and returning refresh token
-    const Token = tokenExpires(ID)
-
-    res.json({Token: Token})
-});
-
-function Auth(req, res, next) {
+function check(req, res, next) {
     //Auth to make sure the right user has the correct access
     const authHead = req.headers['authorization']
     const token = authHead && authHead.split(' ')[1]
@@ -68,6 +53,21 @@ function Auth(req, res, next) {
 function tokenExpires(ID){
     return jwt.sign(ID, process.env.REFRESH_TOKEN, { expiresIn: '15s'})
 }
+
+//post /auth
+app.post('/auth', async (req, res) =>{
+
+    //confirms kID's
+
+    const user = req.body.user
+
+    const ID = { KID : user}
+
+    //calling and returning refresh token
+    const Token = tokenExpires(ID)
+
+    res.json({Token: Token})
+});
 
 
 //Better listener than me

@@ -1,8 +1,7 @@
 
 ### Request kID information
 GET http://localhost:8080/test
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJLSUQiOiIiLCJpYXQiOjE3MDg4OTkxOTIsImV4cCI6MTcwODg5OTIwN30.P9z11prgk5AQiDXjKLqH5xOAsW48RPKRTMmhrlqMrmg
-
+Authorization: Bearer
 
 
 
@@ -12,5 +11,5 @@ POST http://localhost:8080/auth
 Content-Type: application/json
 
 {
-    "user" : ""
+    "user" : "Ken"
 }

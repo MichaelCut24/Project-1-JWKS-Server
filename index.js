@@ -34,7 +34,7 @@ app.get('/test', check, (req, res) => {
 })
 
 function check(req, res, next) {
-    //Auth to make sure the right user has the correct access
+    //For using already
     const authHead = req.headers['authorization']
     const tokenChecker = authHead && authHead.split(' ')[1]
     //Error code if nothing is put into the auth

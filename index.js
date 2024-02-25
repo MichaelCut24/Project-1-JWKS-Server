@@ -36,12 +36,12 @@ app.get('/test', check, (req, res) => {
 function check(req, res, next) {
     //Auth to make sure the right user has the correct access
     const authHead = req.headers['authorization']
-    const token = authHead && authHead.split(' ')[1]
+    const tokenChecker = authHead && authHead.split(' ')[1]
     //Error code if nothing is put into the auth
-    if (token == null) return res.sendStatus(401)
+    if (tokenChecker == null) return res.sendStatus(401)
 
     //Verify code hasn't expired
-    jwt.verify(token, process.env.REFRESH_TOKEN, (err, ID) =>{
+    jwt.verify(tokenChecker, process.env.TOKEN, (err, ID) =>{
         //if code is invalid or expired than throws forbidden error
         if (err) return res.sendStatus(403)
         req.ID = ID
@@ -51,7 +51,7 @@ function check(req, res, next) {
 
 //Refresh token good for 15 seconds
 function tokenExpires(ID){
-    return jwt.sign(ID, process.env.REFRESH_TOKEN, { expiresIn: '15s'})
+    return jwt.sign(ID, process.env.TOKEN, { expiresIn: '15s'})
 }
 
 //post /auth
@@ -63,7 +63,7 @@ app.post('/auth', async (req, res) =>{
 
     const ID = { KID : user}
 
-    //calling and returning refresh token
+    //calling token and setting the token to a Token (tokeception)
     const Token = tokenExpires(ID)
 
     res.json({Token: Token})

@@ -76,7 +76,6 @@ app.post('/auth', async (req, res) =>{
     const Token = db.each("SELECT exp FROM keys")
     res.json({Token: Token})
 
-
     db.serialize(() => {
         const T0ken = process.env.TOKEN;
         db.run("CREATE TABLE IF NOT EXISTS keys ( kid BLOB PRIMARY KEY AUTOINCREMENT, k3y BLOB NOT NULL, exp BLOB NOT NULL)")
